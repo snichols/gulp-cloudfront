@@ -23,7 +23,7 @@ module.exports = function(options) {
             if (err) {
                 deferred.reject(err);
             } else {
-
+                console.log(defaultRootObject)
                 // AWS Service returns errors if we don't fix these
                 if (data.DistributionConfig.Comment === null) data.DistributionConfig.Comment = '';
                 if (data.DistributionConfig.Logging.Enabled === false) {
@@ -31,10 +31,11 @@ module.exports = function(options) {
                     data.DistributionConfig.Logging.Prefix = '';
                 }
 
+                // SNICHOLS: removing broken stuff
                 // Causing problems on a default cloudfront setup, why is this needed?
-                if (data.DistributionConfig.Origins.Items instanceof Array && data.DistributionConfig.Origins.Items[0].S3OriginConfig.OriginAccessIdentity === null) {
-                    data.DistributionConfig.Origins.Items[0].S3OriginConfig.OriginAccessIdentity = '';
-                }
+                //if (data.DistributionConfig.Origins.Items instanceof Array && data.DistributionConfig.Origins.Items[0].S3OriginConfig.OriginAccessIdentity === null) {
+                //    data.DistributionConfig.Origins.Items[0].S3OriginConfig.OriginAccessIdentity = '';
+                //}
 
                 if (data.DistributionConfig.DefaultRootObject === defaultRootObject.substr(1)) {
                     gutil.log('gulp-cloudfront:', "DefaultRootObject hasn't changed, not updating.");
